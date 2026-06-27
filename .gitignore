@@ -1,2 +1,3 @@
-# Local environment — DO NOT commit to git
+node_modules/
+dist/
 .env

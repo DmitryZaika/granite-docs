@@ -1,0 +1,16 @@
+{
+  "$schema": "https://registry.scalar.com/@scalar/schemas/config",
+  "scalar": "2.0.0",
+  "info": {
+    "title": "Granite API"
+  },
+  "navigation": {
+    "routes": {
+      "/make-integration": {
+        "title": "Make.com Integration",
+        "type": "page",
+        "filepath": "make-integration.md"
+      }
+    }
+  }
+}

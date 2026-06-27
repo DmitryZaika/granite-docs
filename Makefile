@@ -3,38 +3,54 @@
 # ────────────────────────────────────────────────────────────────────
 #
 # Usage:
-#   make deploy          # full deploy: infra + sync + cache invalidation
-#   make validate        # validate CloudFormation template
-#   make stack           # create / update the CloudFormation stack only
-#   make sync            # upload local files to S3
+#   make deploy          # full deploy: infra + build + sync + invalidate
+#   make dev             # local dev server (http://localhost:5173)
+#   make build           # bun install && vite build → dist/
+#   make sync            # upload dist/ to S3
 #   make invalidate      # purge CloudFront edge caches
 #   make outputs         # show stack outputs (BucketName, URL, etc.)
+#   make clean           # remove dist/ and node_modules/
 #   make destroy         # 🗑  tear down the entire stack
 #
-# Load local configuration from .env (kept out of git)
--include .env
-export
-
-# Override on the command line or via .env:
+# Required variables — set in .env or override on the command line:
 #   DOMAIN_NAME    — e.g. docs.mydomain.com
 #   HOSTED_ZONE_ID — e.g. Z08888801ABC123DEF456
 # ────────────────────────────────────────────────────────────────────
+
+# Load local configuration from .env (kept out of git)
+-include .env
+export
 
 STACK_NAME     ?= granite-docs
 REGION         ?= us-east-1        # MUST be us-east-1 for CloudFront ACM certs
 
 # ── Phony targets ───────────────────────────────────────────────────
 
-.PHONY: deploy validate stack sync invalidate outputs destroy
+.PHONY: deploy dev build sync invalidate validate stack outputs clean destroy
 
 # ── Full deployment pipeline ────────────────────────────────────────
 
-deploy: validate stack sync invalidate
+deploy: validate stack build sync invalidate
 	@echo ""
 	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 	@echo "  ✅  Deployment complete!"
 	@echo "  🌐  https://$(DOMAIN_NAME)"
 	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# ── Local dev server ────────────────────────────────────────────────
+
+dev:
+	bun install
+	bun run dev
+
+# ── Build static files ──────────────────────────────────────────────
+
+build:
+	@echo "📦 Installing dependencies..."
+	bun install
+	@echo "🏗  Building with Vite..."
+	bun run build
+	@echo "✅ Build complete → dist/"
 
 # ── Step 1: Validate the template ───────────────────────────────────
 
@@ -62,10 +78,10 @@ stack:
 		--no-fail-on-empty-changeset
 	@echo "✅ Stack deployment finished."
 
-# ── Step 3: Sync static files to S3 ────────────────────────────────
+# ── Step 3: Sync dist/ to S3 ────────────────────────────────────────
 
 sync:
-	@echo "📤 Syncing files to S3…"
+	@echo "📤 Syncing dist/ to S3…"
 	@BUCKET=$$(aws cloudformation describe-stacks \
 		--stack-name $(STACK_NAME) \
 		--region $(REGION) \
@@ -76,15 +92,7 @@ sync:
 		exit 1; \
 	fi; \
 	echo "   Bucket: s3://$$BUCKET"; \
-	aws s3 sync . s3://$$BUCKET \
-		--exclude ".git/*" \
-		--exclude "template.yaml" \
-		--exclude "Makefile" \
-		--exclude "README.md" \
-		--exclude ".env" \
-		--exclude ".env.example" \
-		--exclude ".gitignore" \
-		--delete
+	aws s3 sync dist/ s3://$$BUCKET --delete
 	@echo "✅ Files synced."
 
 # ── Step 4: Purge CloudFront cache ──────────────────────────────────
@@ -117,6 +125,12 @@ outputs:
 		--region $(REGION) \
 		--query "Stacks[0].Outputs[*].[OutputKey,OutputValue]" \
 		--output table 2>/dev/null || echo "❌ Stack '$(STACK_NAME)' not found."
+
+# ── Clean build artifacts ────────────────────────────────────────────
+
+clean:
+	rm -rf dist/ node_modules/
+	@echo "🧹 Cleaned dist/ and node_modules/"
 
 # ── Tear everything down ────────────────────────────────────────────
 
