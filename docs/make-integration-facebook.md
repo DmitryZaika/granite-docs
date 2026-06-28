@@ -41,7 +41,7 @@ When building your Make data structure, use the exact field names below. Only **
 | `postal_code` | string | ZIP / postal code |
 | `details` | string | Additional project notes or form answers |
 | `referral_source` | string | Where the lead came from (e.g. `facebook`) |
-| `compaign_name` | string | Facebook campaign name |
+| `campaign_name` | string | Facebook campaign name |
 | `adset_name` | string | Facebook ad set name |
 | `ad_name` | string | Facebook ad name |
 | `start_date` | string | When the client plans to start the project |
