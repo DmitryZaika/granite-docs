@@ -1,260 +1,260 @@
 /* ── Scalar Design Tokens ──────────────────────────────────── */
 :root {
-  --scalar-font: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --scalar-font-code: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
-    Monaco, Consolas, monospace;
-  --scalar-heading-1: 24px;
-  --scalar-heading-2: 20px;
-  --scalar-heading-3: 16px;
-  --scalar-heading-4: 16px;
-  --scalar-paragraph: 16px;
-  --scalar-small: 14px;
-  --scalar-mini: 13px;
-  --scalar-bold: 600;
-  --scalar-semibold: 500;
-  --scalar-regular: 400;
-  --scalar-radius: 6px;
-  --scalar-radius-lg: 8px;
+    --scalar-font: "Inter", ui-sans-serif, system-ui, sans-serif;
+    --scalar-font-code:
+        "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+        monospace;
+    --scalar-heading-1: 24px;
+    --scalar-heading-2: 20px;
+    --scalar-heading-3: 16px;
+    --scalar-heading-4: 16px;
+    --scalar-paragraph: 16px;
+    --scalar-small: 14px;
+    --scalar-mini: 13px;
+    --scalar-bold: 600;
+    --scalar-semibold: 500;
+    --scalar-regular: 400;
+    --scalar-radius: 6px;
+    --scalar-radius-lg: 8px;
 }
 
 /* Light mode (default) */
 .light-mode {
-  --scalar-color-1: #1b1b1b;
-  --scalar-color-2: #757575;
-  --scalar-color-3: #8e8e8e;
-  --scalar-color-accent: #0099ff;
-  --scalar-background-1: #fff;
-  --scalar-background-2: #f6f6f6;
-  --scalar-background-3: #e7e7e7;
-  --scalar-border-color: rgba(0, 0, 0, 0.1);
-  --scalar-shadow-1: 0 1px 3px 0 rgba(0, 0, 0, 0.11);
-  color-scheme: light;
+    --scalar-color-1: #1b1b1b;
+    --scalar-color-2: #757575;
+    --scalar-color-3: #8e8e8e;
+    --scalar-color-accent: #0099ff;
+    --scalar-background-1: #fff;
+    --scalar-background-2: #f6f6f6;
+    --scalar-background-3: #e7e7e7;
+    --scalar-border-color: rgba(0, 0, 0, 0.1);
+    --scalar-shadow-1: 0 1px 3px 0 rgba(0, 0, 0, 0.11);
+    color-scheme: light;
 }
 
 /* Dark mode */
 .dark-mode {
-  --scalar-color-1: rgba(255, 255, 255, 0.9);
-  --scalar-color-2: rgba(255, 255, 255, 0.62);
-  --scalar-color-3: rgba(255, 255, 255, 0.44);
-  --scalar-color-accent: #8ab4f8;
-  --scalar-background-1: #1a1a1a;
-  --scalar-background-2: #252525;
-  --scalar-background-3: #323232;
-  --scalar-border-color: rgba(255, 255, 255, 0.1);
-  --scalar-shadow-1: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
-  color-scheme: dark;
+    --scalar-color-1: rgba(255, 255, 255, 0.9);
+    --scalar-color-2: rgba(255, 255, 255, 0.62);
+    --scalar-color-3: rgba(255, 255, 255, 0.44);
+    --scalar-color-accent: #8ab4f8;
+    --scalar-background-1: #1a1a1a;
+    --scalar-background-2: #252525;
+    --scalar-background-3: #323232;
+    --scalar-border-color: rgba(255, 255, 255, 0.1);
+    --scalar-shadow-1: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+    color-scheme: dark;
 }
 
 /* ── Body defaults ─────────────────────────────────────────── */
 body {
-  margin: 0;
-  background: var(--scalar-background-1);
-  color: var(--scalar-color-1);
-  font-family: var(--scalar-font);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    background: var(--scalar-background-1);
+    color: var(--scalar-color-1);
+    font-family: var(--scalar-font);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* ── Site navigation bar (matching Scalar header) ──────────── */
 #site-nav {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  height: 50px;
-  padding: 0 1.5rem;
-  background: var(--scalar-background-1);
-  border-bottom: 1px solid var(--scalar-border-color);
-  font-family: var(--scalar-font);
-  font-size: var(--scalar-small);
-  font-weight: var(--scalar-semibold);
-  position: sticky;
-  top: 0;
-  z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    height: 50px;
+    padding: 0 1.5rem;
+    background: var(--scalar-background-1);
+    border-bottom: 1px solid var(--scalar-border-color);
+    font-family: var(--scalar-font);
+    font-size: var(--scalar-small);
+    font-weight: var(--scalar-semibold);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 #site-nav a {
-  color: var(--scalar-color-2);
-  text-decoration: none;
-  padding: 0 0.75rem;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -1px;
-  transition: color 0.15s, border-color 0.15s;
+    color: var(--scalar-color-2);
+    text-decoration: none;
+    padding: 0 0.75rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition:
+        color 0.15s,
+        border-color 0.15s;
 }
 
 #site-nav a:hover {
-  color: var(--scalar-color-1);
+    color: var(--scalar-color-1);
 }
 
 #site-nav a.active {
-  color: var(--scalar-color-1);
-  border-bottom-color: var(--scalar-color-accent);
+    color: var(--scalar-color-1);
+    border-bottom-color: var(--scalar-color-accent);
 }
 
 #site-nav .nav-brand {
-  font-weight: var(--scalar-bold);
-  color: var(--scalar-color-1);
-  margin-right: 1rem;
-  font-size: var(--scalar-paragraph);
-  letter-spacing: -0.01em;
+    font-weight: var(--scalar-bold);
+    color: var(--scalar-color-1);
+    margin-right: 1rem;
+    font-size: var(--scalar-paragraph);
+    letter-spacing: -0.01em;
+}
+
+/* ── Selection ─────────────────────────────────────────────── */
+::selection {
+    background: color-mix(in srgb, var(--scalar-color-accent), transparent 70%);
 }
 
 /* ── Markdown page (matching Scalar Docs .t-editor__* styles) ─ */
 #markdown-page {
-  font-family: var(--scalar-font);
-  line-height: 1.7;
-  color: var(--scalar-color-1);
+    font-family: var(--scalar-font);
+    line-height: 1.7;
+    color: var(--scalar-color-1);
 }
 
-/* Headings */
 #markdown-page h1 {
-  font-size: var(--scalar-heading-2);
-  font-weight: var(--scalar-bold);
-  color: var(--scalar-color-1);
-  margin: 2rem 0 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--scalar-border-color);
+    font-size: var(--scalar-heading-2);
+    font-weight: var(--scalar-bold);
+    color: var(--scalar-color-1);
+    margin: 2rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--scalar-border-color);
 }
 
 #markdown-page h1:first-child {
-  font-size: var(--scalar-heading-1);
-  margin-top: 0;
-  border-bottom: none;
+    font-size: var(--scalar-heading-1);
+    margin-top: 0;
+    border-bottom: none;
 }
 
 #markdown-page h2 {
-  font-size: var(--scalar-heading-2);
-  font-weight: var(--scalar-bold);
-  color: var(--scalar-color-1);
-  margin: 2rem 0 0.75rem;
-  padding-bottom: 0.3rem;
-  border-bottom: 1px solid var(--scalar-border-color);
+    font-size: var(--scalar-heading-2);
+    font-weight: var(--scalar-bold);
+    color: var(--scalar-color-1);
+    margin: 2rem 0 0.75rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--scalar-border-color);
 }
 
 #markdown-page h3 {
-  font-size: var(--scalar-heading-3);
-  font-weight: var(--scalar-bold);
-  color: var(--scalar-color-1);
-  margin: 1.5rem 0 0.5rem;
+    font-size: var(--scalar-heading-3);
+    font-weight: var(--scalar-bold);
+    color: var(--scalar-color-1);
+    margin: 1.5rem 0 0.5rem;
 }
 
 #markdown-page h4,
 #markdown-page h5,
 #markdown-page h6 {
-  font-size: var(--scalar-heading-4);
-  font-weight: var(--scalar-bold);
-  color: var(--scalar-color-1);
-  margin: 1rem 0 0.5rem;
+    font-size: var(--scalar-heading-4);
+    font-weight: var(--scalar-bold);
+    color: var(--scalar-color-1);
+    margin: 1rem 0 0.5rem;
 }
 
-/* Paragraphs */
 #markdown-page p {
-  font-size: var(--scalar-paragraph);
-  font-weight: var(--scalar-regular);
-  color: var(--scalar-color-1);
-  margin: 0 0 1rem;
+    font-size: var(--scalar-paragraph);
+    font-weight: var(--scalar-regular);
+    color: var(--scalar-color-1);
+    margin: 0 0 1rem;
 }
 
-/* Inline code */
 #markdown-page code {
-  font-family: var(--scalar-font-code);
-  font-size: 0.875em;
-  background: var(--scalar-background-2);
-  padding: 0.15em 0.4em;
-  border-radius: 4px;
-  color: var(--scalar-color-1);
+    font-family: var(--scalar-font-code);
+    font-size: 0.875em;
+    background: var(--scalar-background-2);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    color: var(--scalar-color-1);
 }
 
-/* Code blocks */
 #markdown-page pre {
-  font-family: var(--scalar-font-code);
-  font-size: var(--scalar-small);
-  background: var(--scalar-background-2);
-  color: var(--scalar-color-1);
-  padding: 1rem;
-  border-radius: var(--scalar-radius);
-  overflow-x: auto;
-  margin: 1rem 0;
-  border: 1px solid var(--scalar-border-color);
+    font-family: var(--scalar-font-code);
+    font-size: var(--scalar-small);
+    background: var(--scalar-background-2);
+    color: var(--scalar-color-1);
+    padding: 1rem;
+    border-radius: var(--scalar-radius);
+    overflow-x: auto;
+    margin: 1rem 0;
+    border: 1px solid var(--scalar-border-color);
 }
 
 #markdown-page pre code {
-  background: none;
-  padding: 0;
-  font-size: inherit;
-  border: none;
+    background: none;
+    padding: 0;
+    font-size: inherit;
+    border: none;
 }
 
-/* Tables */
 #markdown-page table {
-  border-collapse: collapse;
-  width: 100%;
-  margin: 1rem 0;
-  font-size: var(--scalar-small);
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1rem 0;
+    font-size: var(--scalar-small);
 }
 
 #markdown-page th,
 #markdown-page td {
-  border: 1px solid var(--scalar-border-color);
-  padding: 0.5rem 1rem;
-  text-align: left;
+    border: 1px solid var(--scalar-border-color);
+    padding: 0.5rem 1rem;
+    text-align: left;
 }
 
 #markdown-page th {
-  background: var(--scalar-background-2);
-  font-weight: var(--scalar-bold);
-  color: var(--scalar-color-1);
+    background: var(--scalar-background-2);
+    font-weight: var(--scalar-bold);
+    color: var(--scalar-color-1);
 }
 
-/* Blockquotes (matching .t-editor__quote) */
 #markdown-page blockquote {
-  border-left: 2px solid var(--scalar-border-color);
-  margin: 1rem 0;
-  padding: 6px 0 6px 14px;
-  color: var(--scalar-color-2);
+    border-left: 2px solid var(--scalar-border-color);
+    margin: 1rem 0;
+    padding: 6px 0 6px 14px;
+    color: var(--scalar-color-2);
 }
 
 #markdown-page blockquote p {
-  color: var(--scalar-color-2);
+    color: var(--scalar-color-2);
 }
 
-/* Links (matching .t-editor__anchor) */
 #markdown-page a {
-  color: var(--scalar-color-accent);
-  text-decoration: none;
+    color: var(--scalar-color-accent);
+    text-decoration: none;
 }
 
 #markdown-page a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
-/* Horizontal rule */
 #markdown-page hr {
-  border: none;
-  border-top: 1px solid var(--scalar-border-color);
-  margin: 2rem 0;
+    border: none;
+    border-top: 1px solid var(--scalar-border-color);
+    margin: 2rem 0;
 }
 
-/* Lists */
 #markdown-page ul,
 #markdown-page ol {
-  padding-left: 1.5rem;
-  margin: 0 0 1rem;
-  color: var(--scalar-color-1);
+    padding-left: 1.5rem;
+    margin: 0 0 1rem;
+    color: var(--scalar-color-1);
 }
 
 #markdown-page li {
-  margin-bottom: 0.25rem;
+    margin-bottom: 0.25rem;
 }
 
-/* Strong / Bold */
 #markdown-page strong {
-  font-weight: var(--scalar-bold);
+    font-weight: var(--scalar-bold);
 }
 
-/* Selection */
-::selection {
-  background: color-mix(in srgb, var(--scalar-color-accent), transparent 70%);
+#markdown-page img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--scalar-radius-lg);
+    border: 1px solid var(--scalar-border-color);
 }

@@ -9,17 +9,17 @@
       "/make-integration-facebook": {
         "title": "Make Integration Facebook",
         "type": "page",
-        "filepath": "make-integration-facebook.md"
+        "filepath": "make-integration-facebook.html"
       },
       "/make-integration-website": {
         "title": "Make Integration Website",
         "type": "page",
-        "filepath": "make-integration-website.md"
+        "filepath": "make-integration-website.html"
       },
       "/zapier-integration": {
         "title": "Zapier Integration",
         "type": "page",
-        "filepath": "zapier-integration.md"
+        "filepath": "zapier-integration.html"
       }
     }
   }

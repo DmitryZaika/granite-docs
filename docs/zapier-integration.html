@@ -1,0 +1,246 @@
+<h1>Zapier Integration</h1>
+
+<p>
+    How to connect Facebook Lead Ads to Granite Manager using
+    <a href="https://zapier.com">Zapier</a>.
+</p>
+
+<hr />
+
+<h2>Zap Overview</h2>
+
+<p>
+    This Zap captures new Facebook leads and sends them to the Granite Manager
+    webhook as a structured JSON payload.
+</p>
+
+<p>The workflow consists of two steps:</p>
+
+<ol>
+    <li><strong>Facebook Lead Ads</strong> (New Lead) — trigger</li>
+    <li><strong>Webhooks by Zapier</strong> (Custom Request) — action</li>
+</ol>
+
+<blockquote>
+    <p>
+        <strong>Note:</strong> Unlike Make, Zapier does not require a separate
+        JSON transformer step. You map Facebook fields directly to the webhook
+        payload in the Custom Request action.
+    </p>
+</blockquote>
+
+<hr />
+
+<h2>Required Payload Fields</h2>
+
+<p>
+    The webhook sends a JSON body to the
+    <a href="https://docs.granite-manager.com/"
+        ><code>POST /v1/webhooks/new-lead-form/{company_id}</code></a
+    >
+    endpoint. The full request schema is documented in the
+    <a href="https://docs.granite-manager.com/">Granite Manager API Reference</a
+    >.
+</p>
+
+<p>
+    When configuring the request body, use the exact field names below. Only
+    <strong><code>name</code></strong> is required — all other fields are
+    optional but recommended for a complete lead record.
+</p>
+
+<div
+    class="schema-fields"
+    data-schema-path="/v1/webhooks/new-lead-form/{company_id}"
+    data-schema-method="post"
+>
+    <p>Loading schema…</p>
+</div>
+
+<blockquote>
+    <p>
+        <strong>Tip:</strong> Map as many optional fields as your Facebook Lead
+        Form collects. Fields you leave empty are sent as <code>null</code> and
+        ignored by the API.
+    </p>
+</blockquote>
+
+<hr />
+
+<h2>1. Trigger: Facebook Lead Ads (New Lead)</h2>
+
+<p><strong>Action:</strong> Connect your Facebook Business Account.</p>
+
+<p>
+    <strong>Configuration:</strong> Select the specific Facebook Page and the
+    Lead Generation Form you want to track.
+</p>
+
+<p>
+    <strong>Result:</strong> The Zap triggers instantly every time a prospective
+    client submits a new lead form.
+</p>
+
+<hr />
+
+<h2>2. Action: Webhooks by Zapier (Custom Request)</h2>
+
+<p>Follow these steps to securely send your lead data to the CRM.</p>
+
+<h3>Step 1: Add the Action</h3>
+
+<p>
+    In your Zap editor, click <strong>+</strong> to add an action step. Search
+    for <strong>Webhooks by Zapier</strong> and select
+    <strong>Custom Request</strong>.
+</p>
+
+<h3>Part 1: Connection &amp; Endpoint Setup</h3>
+
+<p><strong>Method:</strong> Select <strong>POST</strong>.</p>
+
+<p><strong>URL:</strong> Input the following endpoint path exactly:</p>
+
+<pre><code>https://cawv6iwjgxpk5fj2fchs6vc5vq0bycwp.lambda-url.us-east-2.on.aws/v1/webhooks/new-lead-form/{company_id}</code></pre>
+
+<blockquote>
+    <p>
+        <strong>Company ID:</strong> Manually replace
+        <code>{company_id}</code> with your actual organization ID. You must
+        confirm this ID with the Granite Manager company before saving.
+    </p>
+</blockquote>
+
+<p><strong>Data Pass-Through?</strong> Select <strong>No</strong>.</p>
+
+<p><strong>Unflatten:</strong> Select <strong>No</strong>.</p>
+
+<h3>Part 2: Headers &amp; Authentication</h3>
+
+<p>
+    Click <strong>Show options</strong> to expand additional fields, then add a
+    header:
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>Authorization</code></td>
+            <td><code>Bearer YOUR_API_TOKEN</code></td>
+        </tr>
+    </tbody>
+</table>
+
+<blockquote>
+    <p>
+        <strong>API Token:</strong> Replace <code>YOUR_API_TOKEN</code> with the
+        secret security token requested directly from the Granite Manager
+        company.
+    </p>
+</blockquote>
+
+<h3>Part 3: Body &amp; Field Mapping</h3>
+
+<p><strong>Payload Type:</strong> Select <strong>Json</strong>.</p>
+
+<p>
+    Under <strong>Data</strong>, add a row for each field from the
+    <a href="#required-payload-fields">Required Payload Fields</a> section. Map
+    Facebook Lead Ads values from the trigger step, or enter static text where
+    noted:
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>API field</th>
+            <th>Map from Facebook</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>name</code> <em>(required)</em></td>
+            <td>Full name</td>
+        </tr>
+        <tr>
+            <td><code>phone</code></td>
+            <td>Phone number</td>
+        </tr>
+        <tr>
+            <td><code>email</code></td>
+            <td>Email</td>
+        </tr>
+        <tr>
+            <td><code>city</code></td>
+            <td>City</td>
+        </tr>
+        <tr>
+            <td><code>postal_code</code></td>
+            <td>Zip code</td>
+        </tr>
+        <tr>
+            <td><code>details</code></td>
+            <td>
+                Project notes / form answers (combine multiple fields if needed)
+            </td>
+        </tr>
+        <tr>
+            <td><code>campaign_name</code></td>
+            <td>Campaign name</td>
+        </tr>
+        <tr>
+            <td><code>adset_name</code></td>
+            <td>Adset name</td>
+        </tr>
+        <tr>
+            <td><code>ad_name</code></td>
+            <td>Ad name</td>
+        </tr>
+        <tr>
+            <td><code>start_date</code></td>
+            <td>When are you planning to start the project?</td>
+        </tr>
+        <tr>
+            <td><code>referral_source</code></td>
+            <td>Type <code>facebook</code> as a static value</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul>
+    <li>
+        <strong>Dynamic fields:</strong> Click each value field and select the
+        corresponding token from the Facebook Lead Ads trigger (e.g., contact
+        details, project notes, campaign names).
+    </li>
+    <li>
+        <strong>Static fields:</strong> For fields that need the same value on
+        every lead (such as <code>referral_source</code>), type the plain text
+        directly (e.g., <code>facebook</code>).
+    </li>
+</ul>
+
+<p><strong>Wrap Request In Array:</strong> Leave <strong>No</strong>.</p>
+
+<h3>Part 4: Test &amp; Publish</h3>
+
+<p>
+    Click <strong>Continue</strong>, then <strong>Test step</strong> to send a
+    sample lead to the webhook.
+</p>
+
+<p>
+    If the test returns a <code>201</code> response, click
+    <strong>Publish</strong> to turn on the Zap.
+</p>
+
+<p>
+    <strong>Result:</strong> Sends the structured lead data directly into your
+    CRM database webhook.
+</p>
