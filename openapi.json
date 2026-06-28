@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en" class="light-mode">
+    <head>
+        <title>API Documentation</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <script type="module" crossorigin src="/assets/index-4iqriAe1.js"></script>
+      <link rel="modulepreload" crossorigin href="/assets/runtime-core.esm-bundler-BYSPRAz7.js">
+      <link rel="modulepreload" crossorigin href="/assets/interface-content-folder.svg-CdPojVH-.js">
+      <link rel="stylesheet" crossorigin href="/assets/index-D3ssgs0A.css">
+    </head>
+    <body>
+        <nav id="site-nav"></nav>
+        <div id="api-reference"></div>
+        <div
+            id="markdown-page"
+            style="
+                display: none;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 2rem;
+            "
+        ></div>
+    </body>
+</html>
