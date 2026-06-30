@@ -1,117 +1,137 @@
+import '@scalar/api-reference/style.css'
+import { createApiReference } from '@scalar/api-reference'
+import { Marked } from 'marked'
 import config from '/scalar.config.json'
 
-// ── Resolve $ref pointers in an OpenAPI spec ────────────────────────────
-function resolveRef(spec, ref) {
-    if (typeof ref !== 'string') return ref
-    const parts = ref.replace('#/', '').split('/')
-    return parts.reduce((obj, key) => obj?.[key], spec)
-}
-
-// ── Render a schema as Required / Optional tables ───────────────────────
-function renderSchemaTable(schema, requiredList) {
-    const required = new Set(requiredList || [])
-    const props = schema.properties || {}
-
-    let html = ''
-
-    const reqFields = Object.entries(props).filter(([name]) => required.has(name))
-    if (reqFields.length) {
-        html += '<h3>Required</h3>'
-        html += '<table><thead><tr><th>Field</th><th>Type</th></tr></thead><tbody>'
-        for (const [name, prop] of reqFields) {
-            html += `<tr><td><code>${name}</code></td><td><code>${prop.type || 'string'}</code></td></tr>`
-        }
-        html += '</tbody></table>'
-    }
-
-    const optFields = Object.entries(props).filter(([name]) => !required.has(name))
-    if (optFields.length) {
-        html += '<h3>Optional</h3>'
-        html += '<table><thead><tr><th>Field</th><th>Type</th></tr></thead><tbody>'
-        for (const [name, prop] of optFields) {
-            const type = Array.isArray(prop.type)
-                ? prop.type.filter(t => t !== 'null').join(' | ')
-                : (prop.type || 'string')
-            html += `<tr><td><code>${name}</code></td><td><code>${type}</code></td></tr>`
-        }
-        html += '</tbody></table>'
-    }
-
-    return html
-}
-
-// ── Populate all schema-fields placeholders on the page ─────────────────
-const OPENAPI_URL =
-    'https://cawv6iwjgxpk5fj2fchs6vc5vq0bycwp.lambda-url.us-east-2.on.aws/api-docs/openapi.json'
-
-async function populateSchemaTables(container) {
-    const placeholders = container.querySelectorAll('.schema-fields')
-    if (!placeholders.length) return
-
-    try {
-        const spec = await fetch(OPENAPI_URL).then(r => r.json())
-        for (const el of placeholders) {
-            const path = el.dataset.schemaPath
-            const method = el.dataset.schemaMethod || 'post'
-            const schemaRef =
-                spec.paths?.[path]?.[method]?.requestBody?.content?.['application/json']?.schema
-            if (schemaRef) {
-                const schema = resolveRef(spec, schemaRef.$ref || schemaRef)
-                el.innerHTML = renderSchemaTable(schema, schema.required || [])
-            } else {
-                el.innerHTML = '<p>Schema not found.</p>'
-            }
-        }
-    } catch (err) {
-        for (const el of placeholders) {
-            el.innerHTML = `<p>Error loading schema: ${err.message}</p>`
+function flattenRoutes(routes) {
+    const pages = {}
+    for (const [path, route] of Object.entries(routes)) {
+        if (route?.type === 'page' && route?.filepath) {
+            pages[path] = route
+        } else if (route?.type === 'group' && route?.children) {
+            Object.assign(pages, flattenRoutes(route.children))
         }
     }
+    return pages
 }
 
-// ── Build site navigation bar ──────────────────────────────────────────
+const pageRoutes = config?.navigation?.routes
+    ? flattenRoutes(config.navigation.routes)
+    : {}
+
 const currentPath = window.location.pathname
 
-// Extract page routes from scalar config
-const pageRoutes = {}
-if (config?.navigation?.routes) {
-    for (const [path, route] of Object.entries(config.navigation.routes)) {
-        if (route?.type === 'page' && route?.filepath) {
-            pageRoutes[path] = route
-        }
-    }
+function getTheme() {
+    const stored = localStorage.getItem('granite-theme')
+    if (stored === 'dark' || stored === 'light') return stored
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }
+
+function applyTheme(theme) {
+    const cls = theme === 'dark' ? 'dark-mode' : 'light-mode'
+    document.documentElement.className = cls
+    localStorage.setItem('granite-theme', theme)
+}
+
+applyTheme(getTheme())
 
 const nav = document.getElementById('site-nav')
 
-// Brand link (always goes to API reference)
 const brand = document.createElement('a')
 brand.className = 'nav-brand'
 brand.href = '/'
 brand.textContent = config?.info?.title || 'API Docs'
 nav.appendChild(brand)
 
-// API Reference link
 const apiLink = document.createElement('a')
 apiLink.href = '/'
 apiLink.textContent = 'API Reference'
 if (currentPath === '/' || currentPath === '') apiLink.classList.add('active')
 nav.appendChild(apiLink)
 
-// Page links from config
-for (const [path, route] of Object.entries(pageRoutes)) {
-    const link = document.createElement('a')
-    link.href = path
-    link.textContent = route.title || path
-    if (currentPath === path) link.classList.add('active')
-    nav.appendChild(link)
+function isChildActive(children) {
+    return Object.keys(children).some(childPath => currentPath === childPath)
 }
 
-// ── Render the current page ───────────────────────────────────────────
+function buildNavItems(routes, parentElement) {
+    for (const [path, route] of Object.entries(routes)) {
+        if (route?.type === 'group' && route?.children) {
+            const groupWrapper = document.createElement('div')
+            groupWrapper.className = 'nav-group'
+
+            const groupBtn = document.createElement('button')
+            groupBtn.className = 'nav-group-toggle'
+
+            const btnLabel = document.createElement('span')
+            btnLabel.textContent = route.title || path
+            groupBtn.appendChild(btnLabel)
+
+            const chevron = document.createElement('span')
+            chevron.className = 'nav-group-chevron'
+            chevron.innerHTML = '<svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M2 3.5L5 6.5L8 3.5"/></svg>'
+            groupBtn.appendChild(chevron)
+
+            if (isChildActive(route.children)) {
+                groupBtn.classList.add('active')
+            }
+
+            groupBtn.addEventListener('click', (e) => {
+                e.preventDefault()
+                groupWrapper.classList.toggle('open')
+            })
+
+            const dropdown = document.createElement('div')
+            dropdown.className = 'nav-dropdown'
+
+            for (const [childPath, childRoute] of Object.entries(route.children)) {
+                const link = document.createElement('a')
+                link.href = childPath
+                link.textContent = childRoute.title || childPath
+                if (currentPath === childPath) {
+                    link.classList.add('active')
+                }
+                link.addEventListener('click', () => {
+                    groupWrapper.classList.remove('open')
+                })
+                dropdown.appendChild(link)
+            }
+
+            groupWrapper.appendChild(groupBtn)
+            groupWrapper.appendChild(dropdown)
+            parentElement.appendChild(groupWrapper)
+        } else if (route?.type === 'page' && route?.filepath) {
+            const link = document.createElement('a')
+            link.href = path
+            link.textContent = route.title || path
+            if (currentPath === path) link.classList.add('active')
+            parentElement.appendChild(link)
+        }
+    }
+}
+
+buildNavItems(config?.navigation?.routes || {}, nav)
+
+const themeBtn = document.createElement('button')
+themeBtn.className = 'nav-theme-toggle'
+themeBtn.setAttribute('aria-label', 'Toggle theme')
+themeBtn.innerHTML = '<svg class="icon-sun" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="3"/><path d="M8 1v1M8 14v1M2.3 3.7l.7.7M13 13l.7.7M1 8h1M14 8h1M2.3 12.3l.7-.7M13 3l.7-.7"/></svg><svg class="icon-moon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M13 10.5A5.5 5.5 0 1 1 5.5 3a6 6 0 0 0 7.5 7.5z"/></svg>'
+themeBtn.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.contains('dark-mode')
+    applyTheme(isDark ? 'light' : 'dark')
+})
+nav.appendChild(themeBtn)
+
+document.addEventListener('click', (e) => {
+    for (const group of document.querySelectorAll('.nav-group.open')) {
+        if (!group.contains(e.target)) {
+            group.classList.remove('open')
+        }
+    }
+})
+
 const matchedRoute = pageRoutes[currentPath]
 
 if (matchedRoute) {
-    // Render HTML page
     document.getElementById('api-reference').style.display = 'none'
     const mdContainer = document.getElementById('markdown-page')
     mdContainer.style.display = 'block'
@@ -122,21 +142,15 @@ if (matchedRoute) {
 
     fetch(`/${matchedRoute.filepath}`)
         .then(res => res.text())
-        .then(async html => {
-            mdContainer.innerHTML = html
-            await populateSchemaTables(mdContainer)
+        .then(md => {
+            const marked = new Marked()
+            mdContainer.innerHTML = marked.parse(md)
         })
         .catch(err => {
             mdContainer.innerHTML = `<p>Error loading page: ${err.message}</p>`
         })
 } else {
-    // Render API reference — lazy-load Scalar (3+ MB) only when needed
-    Promise.all([
-        import('@scalar/api-reference/style.css'),
-        import('@scalar/api-reference'),
-    ]).then(([_, { createApiReference }]) => {
-        createApiReference('#api-reference', {
-            url: OPENAPI_URL,
-        })
+    createApiReference('#api-reference', {
+        url: 'https://cawv6iwjgxpk5fj2fchs6vc5vq0bycwp.lambda-url.us-east-2.on.aws/api-docs/openapi.json',
     })
 }

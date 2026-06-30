@@ -6,20 +6,31 @@
   },
   "navigation": {
     "routes": {
-      "/make-integration-facebook": {
-        "title": "Make Integration Facebook",
-        "type": "page",
-        "filepath": "make-integration-facebook.html"
-      },
-      "/make-integration-website": {
-        "title": "Make Integration Website",
-        "type": "page",
-        "filepath": "make-integration-website.html"
+      "/make-integration": {
+        "title": "Make Integration",
+        "type": "group",
+        "children": {
+          "/make-integration-facebook": {
+            "title": "Facebook",
+            "type": "page",
+            "filepath": "make-integration-facebook.md"
+          },
+          "/make-integration-website": {
+            "title": "Website",
+            "type": "page",
+            "filepath": "make-integration-website.md"
+          }
+        }
       },
       "/zapier-integration": {
         "title": "Zapier Integration",
         "type": "page",
-        "filepath": "zapier-integration.html"
+        "filepath": "zapier-integration.md"
+      },
+      "/inbound-email-setup": {
+        "title": "Inbound Email Setup",
+        "type": "page",
+        "filepath": "inbound-email-setup.md"
       }
     }
   }
