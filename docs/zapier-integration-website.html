@@ -13,7 +13,7 @@
 
 <ol>
     <li><strong>Webhooks by Zapier</strong> (Catch Hook) — trigger</li>
-    <li><strong>Webhooks by Zapier</strong> (Custom Request) — action</li>
+    <li><strong>Webhooks by Zapier</strong> (POST) — action</li>
 </ol>
 
 <hr />
@@ -86,7 +86,7 @@
         <tr>
             <td><code>referral_source</code></td>
             <td>string</td>
-            <td>Where the lead came from (e.g. <code>website</code>)</td>
+            <td>Where the lead came from — enter the name of the form (e.g. <code>quick_estimate</code>, <code>builders</code>, <code>cabinets</code>)</td>
         </tr>
         <tr>
             <td><code>campaign_name</code></td>
@@ -212,7 +212,7 @@
 
 <hr />
 
-<h2>2. Action: Webhooks by Zapier (Custom Request)</h2>
+<h2>2. Action: Webhooks by Zapier (POST)</h2>
 
 <p>Follow these steps to securely send your lead data to the CRM.</p>
 
@@ -221,7 +221,7 @@
 <p>
     In your Zap editor, click <strong>+</strong> to add an action step. Search
     for <strong>Webhooks by Zapier</strong> and select
-    <strong>Custom Request</strong>.
+    <strong>POST</strong>.
 </p>
 
 <h3>Part 1: Connection &amp; Endpoint Setup</h3>
@@ -329,7 +329,7 @@
         </tr>
         <tr>
             <td><code>referral_source</code></td>
-            <td>Type <code>website</code> as a static value</td>
+            <td>Type the name of the form as a static value (e.g. <code>quick_estimate</code>, <code>builders</code>, <code>cabinets</code>)</td>
         </tr>
     </tbody>
 </table>
@@ -342,8 +342,9 @@
     </li>
     <li>
         <strong>Static fields:</strong> For fields that need the same value on
-        every lead (such as <code>referral_source</code>), type the plain text
-        directly (e.g., <code>website</code>).
+        every lead (such as <code>referral_source</code>), type the
+        name of the form directly (e.g., <code>quick_estimate</code>,
+        <code>builders</code>, <code>cabinets</code>).
     </li>
 </ul>
 

@@ -11,7 +11,7 @@ This Zap captures new Facebook leads and sends them to the Granite Manager webho
 The workflow consists of two steps:
 
 1. **Facebook Lead Ads** (New Lead) — trigger
-2. **Webhooks by Zapier** (Custom Request) — action
+2. **Webhooks by Zapier** (POST) — action
 
 ---
 
@@ -67,13 +67,13 @@ When configuring the request body, use the exact field names below. Only **`name
 
 ---
 
-## 2. Action: Webhooks by Zapier (Custom Request)
+## 2. Action: Webhooks by Zapier (POST)
 
 Follow these steps to securely send your lead data to the CRM.
 
 ### Step 1: Add the Action
 
-In your Zap editor, click **+** to add an action step. Search for **Webhooks by Zapier** and select **Custom Request**.
+In your Zap editor, click **+** to add an action step. Search for **Webhooks by Zapier** and select **POST**.
 
 ### Part 1: Connection & Endpoint Setup
 
