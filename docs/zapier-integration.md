@@ -13,8 +13,6 @@ The workflow consists of two steps:
 1. **Facebook Lead Ads** (New Lead) — trigger
 2. **Webhooks by Zapier** (Custom Request) — action
 
-> **Note:** Unlike Make, Zapier does not require a separate JSON transformer step. You map Facebook fields directly to the webhook payload in the Custom Request action.
-
 ---
 
 ## Required Payload Fields

@@ -13,12 +13,12 @@
           "/make-integration-facebook": {
             "title": "Facebook",
             "type": "page",
-            "filepath": "make-integration-facebook.md"
+            "filepath": "make-integration-facebook.html"
           },
           "/make-integration-website": {
             "title": "Website",
             "type": "page",
-            "filepath": "make-integration-website.md"
+            "filepath": "make-integration-website.html"
           }
         }
       },
