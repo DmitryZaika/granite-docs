@@ -24,8 +24,19 @@
       },
       "/zapier-integration": {
         "title": "Zapier Integration",
-        "type": "page",
-        "filepath": "zapier-integration.md"
+        "type": "group",
+        "children": {
+          "/zapier-integration-facebook": {
+            "title": "Facebook",
+            "type": "page",
+            "filepath": "zapier-integration-facebook.html"
+          },
+          "/zapier-integration-website": {
+            "title": "Website",
+            "type": "page",
+            "filepath": "zapier-integration-website.html"
+          }
+        }
       },
       "/inbound-email-setup": {
         "title": "Inbound Email Setup",

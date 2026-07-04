@@ -140,11 +140,46 @@ if (matchedRoute) {
         document.title = matchedRoute.title
     }
 
+    function setupCopyButtons(container) {
+        for (const pre of container.querySelectorAll('pre')) {
+            const code = pre.querySelector('code')
+            if (!code || pre.querySelector('.copy-btn')) continue
+
+            const wrapper = document.createElement('div')
+            wrapper.style.position = 'relative'
+
+            const btn = document.createElement('button')
+            btn.className = 'copy-btn'
+            btn.innerHTML = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="10" height="10" rx="1"/><path d="M6 1H13a2 2 0 0 1 2 2v7"/></svg>'
+            btn.title = 'Copy to clipboard'
+
+            btn.addEventListener('click', async () => {
+                const text = code.textContent
+                try {
+                    await navigator.clipboard.writeText(text)
+                    btn.innerHTML = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 4L6 11L3 8"/></svg>'
+                    btn.title = 'Copied!'
+                    setTimeout(() => {
+                        btn.innerHTML = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="10" height="10" rx="1"/><path d="M6 1H13a2 2 0 0 1 2 2v7"/></svg>'
+                        btn.title = 'Copy to clipboard'
+                    }, 2000)
+                } catch {
+                    btn.title = 'Failed to copy'
+                }
+            })
+
+            pre.parentNode.insertBefore(wrapper, pre)
+            wrapper.appendChild(pre)
+            wrapper.appendChild(btn)
+        }
+    }
+
     fetch(`/${matchedRoute.filepath}`)
         .then(res => res.text())
         .then(md => {
             const marked = new Marked()
             mdContainer.innerHTML = marked.parse(md)
+            setupCopyButtons(mdContainer)
         })
         .catch(err => {
             mdContainer.innerHTML = `<p>Error loading page: ${err.message}</p>`

@@ -1,9 +1,4 @@
-<h1>Zapier Integration</h1>
-
-<p>
-    How to connect Facebook Lead Ads to Granite Manager using
-    <a href="https://zapier.com">Zapier</a>.
-</p>
+<h1>Zapier Integration — Facebook</h1>
 
 <hr />
 
@@ -34,28 +29,145 @@
 <h2>Required Payload Fields</h2>
 
 <p>
-    The webhook sends a JSON body to the
-    <a href="https://docs.granite-manager.com/"
-        ><code>POST /v1/webhooks/new-lead-form/{company_id}</code></a
-    >
-    endpoint. The full request schema is documented in the
-    <a href="https://docs.granite-manager.com/">Granite Manager API Reference</a
-    >.
-</p>
-
-<p>
     When configuring the request body, use the exact field names below. Only
     <strong><code>name</code></strong> is required — all other fields are
     optional but recommended for a complete lead record.
 </p>
 
-<div
-    class="schema-fields"
-    data-schema-path="/v1/webhooks/new-lead-form/{company_id}"
-    data-schema-method="post"
->
-    <p>Loading schema…</p>
-</div>
+<h3>Required</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>name</code></td>
+            <td>string</td>
+            <td>Lead's full name</td>
+        </tr>
+    </tbody>
+</table>
+<h3>Optional</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>phone</code></td>
+            <td>string</td>
+            <td>Contact phone number</td>
+        </tr>
+        <tr>
+            <td><code>email</code></td>
+            <td>string</td>
+            <td>Contact email address</td>
+        </tr>
+        <tr>
+            <td><code>address</code></td>
+            <td>string</td>
+            <td>Street address</td>
+        </tr>
+        <tr>
+            <td><code>city</code></td>
+            <td>string</td>
+            <td>City</td>
+        </tr>
+        <tr>
+            <td><code>postal_code</code></td>
+            <td>string</td>
+            <td>ZIP / postal code</td>
+        </tr>
+        <tr>
+            <td><code>details</code></td>
+            <td>string</td>
+            <td>Additional project notes or form answers</td>
+        </tr>
+        <tr>
+            <td><code>referral_source</code></td>
+            <td>string</td>
+            <td>Where the lead came from (e.g. <code>facebook</code>)</td>
+        </tr>
+        <tr>
+            <td><code>campaign_name</code></td>
+            <td>string</td>
+            <td>Facebook campaign name</td>
+        </tr>
+        <tr>
+            <td><code>adset_name</code></td>
+            <td>string</td>
+            <td>Facebook ad set name</td>
+        </tr>
+        <tr>
+            <td><code>ad_name</code></td>
+            <td>string</td>
+            <td>Facebook ad name</td>
+        </tr>
+        <tr>
+            <td><code>start_date</code></td>
+            <td>string</td>
+            <td>When the client plans to start the project</td>
+        </tr>
+        <tr>
+            <td><code>project_size</code></td>
+            <td>string</td>
+            <td>Estimated project size</td>
+        </tr>
+        <tr>
+            <td><code>remodel_type</code></td>
+            <td>string</td>
+            <td>Type of remodel</td>
+        </tr>
+        <tr>
+            <td><code>backsplash</code></td>
+            <td>string</td>
+            <td>Backsplash preference</td>
+        </tr>
+        <tr>
+            <td><code>sink</code></td>
+            <td>string</td>
+            <td>Sink preference</td>
+        </tr>
+        <tr>
+            <td><code>stove_type</code></td>
+            <td>string</td>
+            <td>Stove type</td>
+        </tr>
+        <tr>
+            <td><code>tear_out</code></td>
+            <td>string</td>
+            <td>Tear-out details</td>
+        </tr>
+        <tr>
+            <td><code>contact_time</code></td>
+            <td>string</td>
+            <td>Preferred contact time</td>
+        </tr>
+        <tr>
+            <td><code>improve_offer</code></td>
+            <td>string</td>
+            <td>Offer improvement response</td>
+        </tr>
+        <tr>
+            <td><code>your_message</code></td>
+            <td>string</td>
+            <td>Free-text message from the lead</td>
+        </tr>
+        <tr>
+            <td><code>file</code></td>
+            <td>string</td>
+            <td>Attached file reference</td>
+        </tr>
+    </tbody>
+</table>
 
 <blockquote>
     <p>
@@ -106,10 +218,14 @@
 <blockquote>
     <p>
         <strong>Company ID:</strong> Manually replace
-        <code>{company_id}</code> with your actual organization ID. You must
-        confirm this ID with the Granite Manager company before saving.
+        <code>{company_id}</code> with your actual organization ID. Ask your
+        company administrator for your Company ID — you can find it in
+        <strong>Admin</strong> → <strong>Company Settings</strong> →
+        <strong>Company</strong> within Granite Manager.
     </p>
 </blockquote>
+
+<p><img src="https://granite-database.s3.us-east-2.amazonaws.com/static-images/16be145e-f48c-44f8-abfd-13ef268b63f2.jpg" alt="Company ID location in Admin Settings" width="423" /></p>
 
 <p><strong>Data Pass-Through?</strong> Select <strong>No</strong>.</p>
 

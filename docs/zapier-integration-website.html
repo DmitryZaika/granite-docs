@@ -1,0 +1,380 @@
+<h1>Zapier Integration — Website</h1>
+
+<p>
+    How to connect a website lead form to Granite Manager using
+    <a href="https://zapier.com">Zapier</a>.
+</p>
+
+<hr />
+
+<h2>Zap Overview</h2>
+
+<p>
+    This Zap captures leads submitted through your website form and sends them
+    to the Granite Manager webhook as a structured JSON payload.
+</p>
+
+<p>The workflow consists of two steps:</p>
+
+<ol>
+    <li><strong>Webhooks by Zapier</strong> (Catch Hook) — trigger</li>
+    <li><strong>Webhooks by Zapier</strong> (Custom Request) — action</li>
+</ol>
+
+<blockquote>
+    <p>
+        <strong>Note:</strong> Unlike Make, Zapier does not require a separate
+        JSON transformer step. Your website form sends data directly to the
+        Catch Hook, and you map fields straight into the Custom Request payload.
+    </p>
+</blockquote>
+
+<hr />
+
+<h2>Required Payload Fields</h2>
+
+<p>
+    When configuring the request body, use the exact field names below. Only
+    <strong><code>name</code></strong> is required — all other fields are
+    optional but recommended for a complete lead record.
+</p>
+
+<h3>Required</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>name</code></td>
+            <td>string</td>
+            <td>Lead's full name</td>
+        </tr>
+    </tbody>
+</table>
+<h3>Optional</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>phone</code></td>
+            <td>string</td>
+            <td>Contact phone number</td>
+        </tr>
+        <tr>
+            <td><code>email</code></td>
+            <td>string</td>
+            <td>Contact email address</td>
+        </tr>
+        <tr>
+            <td><code>address</code></td>
+            <td>string</td>
+            <td>Street address</td>
+        </tr>
+        <tr>
+            <td><code>city</code></td>
+            <td>string</td>
+            <td>City</td>
+        </tr>
+        <tr>
+            <td><code>postal_code</code></td>
+            <td>string</td>
+            <td>ZIP / postal code</td>
+        </tr>
+        <tr>
+            <td><code>details</code></td>
+            <td>string</td>
+            <td>Additional project notes or form answers</td>
+        </tr>
+        <tr>
+            <td><code>referral_source</code></td>
+            <td>string</td>
+            <td>Where the lead came from (e.g. <code>website</code>)</td>
+        </tr>
+        <tr>
+            <td><code>campaign_name</code></td>
+            <td>string</td>
+            <td>Campaign name</td>
+        </tr>
+        <tr>
+            <td><code>adset_name</code></td>
+            <td>string</td>
+            <td>Ad set name</td>
+        </tr>
+        <tr>
+            <td><code>ad_name</code></td>
+            <td>string</td>
+            <td>Ad name</td>
+        </tr>
+        <tr>
+            <td><code>start_date</code></td>
+            <td>string</td>
+            <td>When the client plans to start the project</td>
+        </tr>
+        <tr>
+            <td><code>project_size</code></td>
+            <td>string</td>
+            <td>Estimated project size</td>
+        </tr>
+        <tr>
+            <td><code>remodel_type</code></td>
+            <td>string</td>
+            <td>Type of remodel</td>
+        </tr>
+        <tr>
+            <td><code>backsplash</code></td>
+            <td>string</td>
+            <td>Backsplash preference</td>
+        </tr>
+        <tr>
+            <td><code>sink</code></td>
+            <td>string</td>
+            <td>Sink preference</td>
+        </tr>
+        <tr>
+            <td><code>stove_type</code></td>
+            <td>string</td>
+            <td>Stove type</td>
+        </tr>
+        <tr>
+            <td><code>tear_out</code></td>
+            <td>string</td>
+            <td>Tear-out details</td>
+        </tr>
+        <tr>
+            <td><code>contact_time</code></td>
+            <td>string</td>
+            <td>Preferred contact time</td>
+        </tr>
+        <tr>
+            <td><code>improve_offer</code></td>
+            <td>string</td>
+            <td>Offer improvement response</td>
+        </tr>
+        <tr>
+            <td><code>your_message</code></td>
+            <td>string</td>
+            <td>Free-text message from the lead</td>
+        </tr>
+        <tr>
+            <td><code>file</code></td>
+            <td>string</td>
+            <td>Attached file reference</td>
+        </tr>
+    </tbody>
+</table>
+
+<blockquote>
+    <p>
+        <strong>Tip:</strong> Map as many optional fields as your website form
+        collects. Fields you leave empty are sent as <code>null</code> and
+        ignored by the API.
+    </p>
+</blockquote>
+
+<hr />
+
+<h2>1. Trigger: Webhooks by Zapier (Catch Hook)</h2>
+
+<p>
+    <strong>Action:</strong> Add a <strong>Webhooks by Zapier</strong> →
+    <strong>Catch Hook</strong> trigger as the first step in your Zap.
+</p>
+
+<p><strong>Configuration:</strong></p>
+
+<ol>
+    <li>
+        In your Zap editor, click the trigger step and select
+        <strong>Webhooks by Zapier</strong> as the app.
+    </li>
+    <li>
+        Choose <strong>Catch Hook</strong> as the trigger event.
+    </li>
+    <li>
+        Click <strong>Continue</strong> — Zapier will generate a unique webhook
+        URL. Copy this URL.
+    </li>
+    <li>
+        Configure your website form (HTML form, WordPress plugin, or custom
+        handler) to send a <code>POST</code> request to this Zapier webhook URL
+        when a visitor submits the form. Include field names that match your
+        form inputs (e.g., <code>name</code>, <code>phone</code>,
+        <code>email</code>, <code>city</code>).
+    </li>
+    <li>
+        Submit a test form entry, then click <strong>Test trigger</strong> in
+        Zapier to pull in the sample data.
+    </li>
+</ol>
+
+<p>
+    <strong>Result:</strong> The Zap triggers instantly every time a visitor
+    submits the lead form on your website.
+</p>
+
+<hr />
+
+<h2>2. Action: Webhooks by Zapier (Custom Request)</h2>
+
+<p>Follow these steps to securely send your lead data to the CRM.</p>
+
+<h3>Step 1: Add the Action</h3>
+
+<p>
+    In your Zap editor, click <strong>+</strong> to add an action step. Search
+    for <strong>Webhooks by Zapier</strong> and select
+    <strong>Custom Request</strong>.
+</p>
+
+<h3>Part 1: Connection &amp; Endpoint Setup</h3>
+
+<p><strong>Method:</strong> Select <strong>POST</strong>.</p>
+
+<p><strong>URL:</strong> Input the following endpoint path exactly:</p>
+
+<pre><code>https://cawv6iwjgxpk5fj2fchs6vc5vq0bycwp.lambda-url.us-east-2.on.aws/v1/webhooks/new-lead-form/{company_id}</code></pre>
+
+<blockquote>
+    <p>
+        <strong>Company ID:</strong> Manually replace
+        <code>{company_id}</code> with your actual organization ID. Ask your
+        company administrator for your Company ID — you can find it in
+        <strong>Admin</strong> → <strong>Company Settings</strong> →
+        <strong>Company</strong> within Granite Manager.
+    </p>
+</blockquote>
+
+<p><img src="https://granite-database.s3.us-east-2.amazonaws.com/static-images/16be145e-f48c-44f8-abfd-13ef268b63f2.jpg" alt="Company ID location in Admin Settings" width="423" /></p>
+
+<p><strong>Data Pass-Through?</strong> Select <strong>No</strong>.</p>
+
+<p><strong>Unflatten:</strong> Select <strong>No</strong>.</p>
+
+<h3>Part 2: Headers &amp; Authentication</h3>
+
+<p>
+    Click <strong>Show options</strong> to expand additional fields, then add a
+    header:
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>Authorization</code></td>
+            <td><code>Bearer YOUR_API_TOKEN</code></td>
+        </tr>
+    </tbody>
+</table>
+
+<blockquote>
+    <p>
+        <strong>API Token:</strong> Replace <code>YOUR_API_TOKEN</code> with the
+        secret security token requested directly from the Granite Manager
+        company.
+    </p>
+</blockquote>
+
+<h3>Part 3: Body &amp; Field Mapping</h3>
+
+<p><strong>Payload Type:</strong> Select <strong>Json</strong>.</p>
+
+<p>
+    Under <strong>Data</strong>, add a row for each field from the
+    <a href="#required-payload-fields">Required Payload Fields</a> section. Map
+    Catch Hook values from the trigger step, or enter static text where noted:
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>API field</th>
+            <th>Map from webhook</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>name</code> <em>(required)</em></td>
+            <td>Full name field from form submission</td>
+        </tr>
+        <tr>
+            <td><code>phone</code></td>
+            <td>Phone field</td>
+        </tr>
+        <tr>
+            <td><code>email</code></td>
+            <td>Email field</td>
+        </tr>
+        <tr>
+            <td><code>city</code></td>
+            <td>City field</td>
+        </tr>
+        <tr>
+            <td><code>postal_code</code></td>
+            <td>ZIP / postal code field</td>
+        </tr>
+        <tr>
+            <td><code>details</code></td>
+            <td>
+                Project notes / additional form answers (combine multiple fields
+                if needed)
+            </td>
+        </tr>
+        <tr>
+            <td><code>your_message</code></td>
+            <td>Message field</td>
+        </tr>
+        <tr>
+            <td><code>referral_source</code></td>
+            <td>Type <code>website</code> as a static value</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul>
+    <li>
+        <strong>Dynamic fields:</strong> Click each value field and select the
+        corresponding token from the Catch Hook trigger (e.g., contact details,
+        project notes, message).
+    </li>
+    <li>
+        <strong>Static fields:</strong> For fields that need the same value on
+        every lead (such as <code>referral_source</code>), type the plain text
+        directly (e.g., <code>website</code>).
+    </li>
+</ul>
+
+<p><strong>Wrap Request In Array:</strong> Leave <strong>No</strong>.</p>
+
+<h3>Part 4: Test &amp; Publish</h3>
+
+<p>
+    Click <strong>Continue</strong>, then <strong>Test step</strong> to send a
+    sample lead to the webhook.
+</p>
+
+<p>
+    If the test returns a <code>201</code> response, click
+    <strong>Publish</strong> to turn on the Zap.
+</p>
+
+<p>
+    <strong>Result:</strong> Sends the structured lead data directly into your
+    CRM database webhook.
+</p>

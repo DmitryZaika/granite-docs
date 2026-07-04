@@ -424,3 +424,37 @@ body {
     border-radius: var(--scalar-radius-lg);
     border: 1px solid var(--scalar-border-color);
 }
+
+.copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--scalar-background-2);
+    border: 1px solid var(--scalar-border-color);
+    border-radius: var(--scalar-radius-sm);
+    cursor: pointer;
+    color: var(--scalar-color-3);
+    padding: 6px;
+    z-index: 1;
+    transition: color 0.15s, background 0.15s;
+}
+
+.copy-btn:hover {
+    background: var(--scalar-background-3);
+    color: var(--scalar-color-1);
+}
+
+.copy-btn svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+}
+
+.copy-btn[title="Copied!"] svg {
+    stroke: #22c55e;
+}
