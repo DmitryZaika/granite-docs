@@ -171,6 +171,30 @@
 
 <hr />
 
+<h2>Example Payload</h2>
+
+<p>Below is an example of the final JSON payload your Zap should send to the webhook. Use this as a reference when mapping your fields:</p>
+
+<pre><code>{
+  "name": "John Doe",
+  "email": "johndoe@example.com",
+  "phone": "555-0199",
+  "postal_code": "46201",
+  "address": "123 Main Street",
+  "remodel_type": "Kitchen Countertop Replacement",
+  "project_size": "45 sq ft",
+  "contact_time": "Evening",
+  "tear_out": "Yes",
+  "improve_offer": "Free Estimate",
+  "sink": "Undermount Single Bowl",
+  "stove_type": "Gas Cooktop",
+  "backsplash": "Tile",
+  "your_message": "Looking to replace old laminate countertops with granite.",
+  "referral_source": "quick_estimate"
+}</code></pre>
+
+<hr />
+
 <h2>1. Trigger: Webhooks by Zapier (Catch Hook)</h2>
 
 <p>
@@ -272,10 +296,17 @@
 
 <blockquote>
     <p>
-        <strong>API Token:</strong> Replace <code>YOUR_API_TOKEN</code> with the
-        secret security token requested directly from the Granite Manager
-        company.
+        <strong>Bearer token:</strong> Ask the manager of the company you work
+        with to go to
+        <strong>Admin → Company Settings → Company</strong> in Granite Manager
+        and click <strong>Request Bearer</strong>. They must then enter the email
+        address where they would like to receive the bearer token.
     </p>
+    <img
+        src="https://granite-database.s3.us-east-2.amazonaws.com/static-images/bearer+request.jpg"
+        alt="Request Bearer button in Company settings"
+        width="423"
+    />
 </blockquote>
 
 <h3>Part 3: Body &amp; Field Mapping</h3>

@@ -132,7 +132,9 @@ Click on the blue **HTTP (Make a request)** module in your Make scenario.
 |---|---|
 | `Authorization` | `Bearer YOUR_API_TOKEN` |
 
-> **API Token:** Replace `YOUR_API_TOKEN` with the secret security token requested directly from the Granite Manager company.
+> **Bearer token:** Ask the manager of the company you work with to go to **Admin → Company Settings → Company** in Granite Manager and click **Request Bearer**. They must then enter the email address where they would like to receive the bearer token.
+>
+> <img src="https://granite-database.s3.us-east-2.amazonaws.com/static-images/bearer+request.jpg" alt="Request Bearer button in Company settings" width="423" />
 
 **Query parameters:** Leave this section completely empty. Do not click **Add a parameter**, and keep the **Map** toggle disabled.
 
